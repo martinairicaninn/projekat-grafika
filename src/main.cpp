@@ -63,6 +63,7 @@ struct ProgramState {
     bool CameraMouseMovementUpdateEnabled = true;
     glm::vec3 backpackPosition = glm::vec3(0.0f);
     float backpackScale = 1.0f;
+    PointLight pointLightMedved;
     PointLight pointLight;
     ProgramState()
             : camera(glm::vec3(0.0f, 0.0f, 3.0f)) {}
@@ -171,8 +172,16 @@ int main() {
 
     // load models
     // -----------
-    Model ourModel("resources/objects/HorseArmor/HorseArmor.obj");
-    ourModel.SetShaderTextureNamePrefix("material.");
+    Model konjModel("resources/objects/HorseArmor/HorseArmor.obj");
+    konjModel.SetShaderTextureNamePrefix("material.");
+
+    Model medvedModel("resources/objects/BearSaddle/BearSaddle.obj");
+    medvedModel.SetShaderTextureNamePrefix("material.");
+
+    Model pticaModel("resources/objects/gull/GULL.OBJ");
+    pticaModel.SetShaderTextureNamePrefix("material.");
+
+
 
     PointLight& pointLight = programState->pointLight;
     pointLight.position = glm::vec3(4.0f, 4.0, 0.0);
@@ -183,6 +192,14 @@ int main() {
     pointLight.constant = 1.0f;
     pointLight.linear = 0.09f;
     pointLight.quadratic = 0.032f;
+
+    programState->pointLightMedved.position = glm::vec3(10.0f, 2.0f, -3.0f);
+    programState->pointLightMedved.ambient = glm::vec3(3.5f, 3.5f, 3.5f);
+    programState->pointLightMedved.diffuse = glm::vec3(2.0f, 2.0f, 2.0f);
+    programState->pointLightMedved.specular = glm::vec3(5.0f, 5.0f, 5.0f);
+    programState->pointLightMedved.constant = 1.0f;
+    programState->pointLightMedved.linear = 0.09f;
+    programState->pointLightMedved.quadratic = 0.032f;
 
 
 
@@ -313,27 +330,137 @@ int main() {
 
 
         //--------------------------------------MODEL KONJA-----------------------------------------------------
-        glm::mat4 model = glm::mat4(1.0f);
+        glm::mat4 model1= glm::mat4(1.0f);
 
       // Primeniti rotaciju modela oko određene ose (na primer, oko y-ose za 90 stepeni)
         float angle = glm::radians(45.0f); // Ugao rotacije, možemo promeniti ovu vrednost po potrebi
         glm::vec3 axis(0.0f, 1.0f, 0.0f); // Osa rotacije, ovde smo odabrali y-osu
-        model = glm::rotate(model, angle, axis);
+        model1 = glm::rotate(model1, angle, axis);
         // Može se  promeniti ova vrednost u zavisnosti od toga koliko želimo da pomerimo model
-        model = glm::translate(model, glm::vec3 (1.0f, -1.1f, 0.0f));
-        model = glm::translate(model, positionKonj);
+        model1 = glm::translate(model1, glm::vec3 (1.0f, -1.1f, 0.0f));
+        model1 = glm::translate(model1, positionKonj);
 
-        model = glm::scale(model, glm::vec3(programState->backpackScale));
+        model1 = glm::scale(model1, glm::vec3(programState->backpackScale));
 
-        ourShader.setMat4("model", model);
-        ourModel.Draw(ourShader);
+        ourShader.setMat4("model", model1);
+        konjModel.Draw(ourShader);
         //=======================================================================================================
+
+        ourShader.setVec3("pointLight.position", programState->pointLightMedved.position);
+        ourShader.setVec3("pointLight.ambient", programState->pointLightMedved.ambient);
+        ourShader.setVec3("pointLight.diffuse", programState->pointLightMedved.diffuse);
+        ourShader.setVec3("pointLight.specular", programState->pointLightMedved.specular);
+        ourShader.setFloat("pointLight.constant", programState->pointLightMedved.constant);
+        ourShader.setFloat("pointLight.linear", programState->pointLightMedved.linear);
+        ourShader.setFloat("pointLight.quadratic", programState->pointLightMedved.quadratic);
+
+
+        //------------------------------------MODEL MEDVEDA-----------------------------------------------------
+        glm::mat4 model2 = glm::mat4(1.0f);
+
+        // Primeniti rotaciju modela oko određene ose (na primer, oko y-ose za 90 stepeni)
+        float angle2 = glm::radians(180.0f); // Ugao rotacije, možemo promeniti ovu vrednost po potrebi
+        glm::vec3 axis2(0.0f, 1.0f, 0.0f);// Osa rotacije, ovde smo odabrali y-osu
+        model2 = glm::rotate(model2, angle2, axis);
+        model2 = glm::rotate(model2, glm::radians(-14.0f), glm::vec3(1.0,0.0,0.0));
+        // Može se  promeniti ova vrednost u zavisnosti od toga koliko želimo da pomerimo model
+        model2 = glm::translate(model2, glm::vec3 (11.0f, 2.7f, -5.0f));
+
+
+        model2 = glm::scale(model2, glm::vec3(0.5));
+
+        ourShader.setMat4("model", model2);
+        medvedModel.Draw(ourShader);
+
+        //=========================================================================================================
+
+        //---------------------------------------MODELI PTICA------------------------------------------------------
+
+            glm::mat4 model3 = glm::mat4(1.0f);
+
+// Definisanje parametra za putanju ptice u obliku znaka beskonacnosti
+            float loopRadius = 0.8f;   // Poluprecnik krivine
+            float loopHeight = 0.5f;   // Visina leta
+            float loopSpeed = 0.5f;    // Brzina letenja
+
+// Izracunavanje pozicije ptice na osnovu vremena
+            float time = glfwGetTime();
+            float x = loopRadius * sin(loopSpeed * time);
+            float y = loopHeight * cos(4 * loopSpeed * time);
+            float z = loopRadius * sin(4 * loopSpeed * time);
+
+
+            model3 = glm::scale(model3, glm::vec3(3.0f));
+// Postavnjanje pozicije ptice na izracunate koordinate
+
+            model3 = glm::translate(model3, glm::vec3(x, y, z));
+            model3 = glm::translate(model3, glm::vec3(2, 1.2, 2));
+
+// Rotiranje ptice tako da gleda u pravcu leta (ka centru znaka beskonacnosti)
+            glm::vec3 direction(-x, -y, -z);
+            glm::vec3 up(0.0f, 1.0f, 0.0f);
+            glm::mat4 rotation = glm::lookAt(glm::vec3(0.0f), direction, up);
+            model3 *= rotation;
+
+
+            ourShader.setMat4("model", model3);
+            pticaModel.Draw(ourShader);
+
+//---------------------------------------------- 2 MODEL PTICE -------------------------------------------------------------
+        glm::mat4 model4 = glm::mat4(1.0f);
+
+        float loopRadius1 = 0.9f;
+        float loopHeight1 = 0.4f;
+        float loopSpeed1 = 0.6f;
+
+        float time1 = glfwGetTime();
+        float x1 = loopRadius * sin(loopSpeed * time);
+        float y1 = loopHeight * cos(3 * loopSpeed * time);
+        float z1 = loopRadius * sin(5 * loopSpeed * time);
+
+        model4 = glm::scale(model4, glm::vec3(3.0f));
+
+        model4 = glm::translate(model4, glm::vec3(x1, y1, z1));
+        model4 = glm::translate(model4, glm::vec3(3, 1.2, 2));
+
+        glm::vec3 direction1(-x1, -y1, -z1);
+        glm::vec3 up1(0.0f, 1.0f, 0.0f);
+        glm::mat4 rotation1 = glm::lookAt(glm::vec3(0.0f), direction, up);
+        model4 *= rotation;
+
+        ourShader.setMat4("model", model4);
+        pticaModel.Draw(ourShader);
+
+        //------------------------------------- 3 MODEL PTICE ----------------------------------------------------
+        glm::mat4 model5 = glm::mat4(1.0f);
+
+        float loopRadius5 = 0.9f;
+        float loopHeight5 = 0.4f;
+        float loopSpeed5 = 0.6f;
+
+        float time2 = glfwGetTime();
+        float x2 = loopRadius * sin(loopSpeed * time);
+        float y2 = loopHeight * cos(8 * loopSpeed * time);
+        float z2 = loopRadius * sin(6 * loopSpeed * time);
+
+        model5 = glm::scale(model5, glm::vec3(3.0f));
+
+        model5 = glm::translate(model5, glm::vec3(x2, y2, z2));
+        model5 = glm::translate(model5, glm::vec3(3, 1.2, 2));
+
+        glm::vec3 direction2(-x2, -y2, -z2);
+        glm::vec3 up2(0.0f, 1.0f, 0.0f);
+        glm::mat4 rotation2 = glm::lookAt(glm::vec3(0.0f), direction, up);
+        model4 *= rotation;
+
+        ourShader.setMat4("model", model5);
+        pticaModel.Draw(ourShader);
 
 
 
         if (programState->ImGuiEnabled)
             DrawImGui(programState);
-        
+
 
 
         // draw skybox as last
