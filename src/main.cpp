@@ -105,7 +105,7 @@ void ProgramState::LoadFromFile(std::string filename) {
 ProgramState *programState;
 
 void DrawImGui(ProgramState *programState);
-
+glm::vec3 positionKonj;
 int main() {
     // glfw: initialize and configure
     // ------------------------------
@@ -177,7 +177,7 @@ int main() {
     PointLight& pointLight = programState->pointLight;
     pointLight.position = glm::vec3(4.0f, 4.0, 0.0);
     pointLight.ambient = glm::vec3(0.1, 0.1, 0.1);
-    pointLight.diffuse = glm::vec3(0.6, 0.6, 0.6);
+    pointLight.diffuse = glm::vec3(1.0, 1.0, 1.0);
     pointLight.specular = glm::vec3(1.0, 1.0, 1.0);
 
     pointLight.constant = 1.0f;
@@ -293,7 +293,8 @@ int main() {
 
         // don't forget to enable shader before setting uniforms
         ourShader.use();
-        pointLight.position = glm::vec3(4.0 * cos(currentFrame), 4.0f, 4.0 * sin(currentFrame));
+        pointLight.position = programState->backpackPosition;
+
         ourShader.setVec3("pointLight.position", pointLight.position);
         ourShader.setVec3("pointLight.ambient", pointLight.ambient);
         ourShader.setVec3("pointLight.diffuse", pointLight.diffuse);
@@ -310,19 +311,29 @@ int main() {
         ourShader.setMat4("projection", projection);
         ourShader.setMat4("view", view);
 
-        // render the loaded model
+
+        //--------------------------------------MODEL KONJA-----------------------------------------------------
         glm::mat4 model = glm::mat4(1.0f);
-        model = glm::translate(model,
-                               programState->backpackPosition); // translate it down so it's at the center of the scene
-        model = glm::scale(model, glm::vec3(programState->backpackScale));    // it's a bit too big for our scene, so scale it down
+
+      // Primeniti rotaciju modela oko određene ose (na primer, oko y-ose za 90 stepeni)
+        float angle = glm::radians(45.0f); // Ugao rotacije, možemo promeniti ovu vrednost po potrebi
+        glm::vec3 axis(0.0f, 1.0f, 0.0f); // Osa rotacije, ovde smo odabrali y-osu
+        model = glm::rotate(model, angle, axis);
+        // Može se  promeniti ova vrednost u zavisnosti od toga koliko želimo da pomerimo model
+        model = glm::translate(model, glm::vec3 (1.0f, -1.1f, 0.0f));
+        model = glm::translate(model, positionKonj);
+
+        model = glm::scale(model, glm::vec3(programState->backpackScale));
+
         ourShader.setMat4("model", model);
         ourModel.Draw(ourShader);
+        //=======================================================================================================
+
 
 
         if (programState->ImGuiEnabled)
             DrawImGui(programState);
-
-        // cubes
+        
 
 
         // draw skybox as last
@@ -367,17 +378,21 @@ int main() {
 // process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
 // ---------------------------------------------------------------------------------------------------------
 void processInput(GLFWwindow *window) {
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
 
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        programState->camera.ProcessKeyboard(FORWARD, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        programState->camera.ProcessKeyboard(BACKWARD, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        programState->camera.ProcessKeyboard(LEFT, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        programState->camera.ProcessKeyboard(RIGHT, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+        positionKonj.z-= 0.05;
+        // Pomeri model ulevo
+
+    }
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+        // Pomeri model udesno
+        positionKonj.z +=0.05;
+
+    }
+
+    float maxBackwardDistance = -2.0f; // Prilagodite prema potrebi
+    float maxForwardDistance = 8.0f;   // Prilagodite prema potrebi
+    positionKonj.z = glm::clamp(positionKonj.z, maxBackwardDistance, maxForwardDistance);
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
@@ -457,6 +472,7 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
         } else {
             glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
         }
+
     }
 }
 
