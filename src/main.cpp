@@ -211,6 +211,9 @@ int main() {
     Model drvoModel("resources/objects/Tree/Tree.obj");
     drvoModel.SetShaderTextureNamePrefix("material.");
 
+    Model bunarModel("resources/objects/bunar/old_well.obj");
+    bunarModel.SetShaderTextureNamePrefix("material.");
+
 
     unsigned int hdrFBO;
     glGenFramebuffers(1, &hdrFBO);
@@ -460,6 +463,10 @@ int main() {
         konjModel.Draw(ourShader);
         //=======================================================================================================
 
+
+
+
+
         ourShader.use();
         ourShader.setVec3("pointLight.position", programState->pointLight1.position);
         ourShader.setVec3("pointLight.ambient", programState->pointLight1.ambient);
@@ -469,7 +476,7 @@ int main() {
         ourShader.setFloat("pointLight.linear", programState->pointLight1.linear);
         ourShader.setFloat("pointLight.quadratic", programState->pointLight1.quadratic);
 
-//-------------------------------------------KONJ2------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------
         glm::mat4 model9= glm::mat4(1.0f);
 
         float angle9 = glm::radians(198.0f);
@@ -483,6 +490,7 @@ int main() {
         ourShader.setMat4("model", model9);
         konjModel.Draw(ourShader);
 
+
         //=========================================================================================================
 
         //---------------------------------------MODELI PTICA------------------------------------------------------
@@ -491,7 +499,7 @@ int main() {
 
 // Definisanje parametra za putanju ptice u obliku znaka beskonacnosti
             float loopRadius = 0.8f;   // Poluprecnik krivine
-            float loopHeight = 0.3f;   // Visina leta
+            float loopHeight = 0.6f;   // Visina leta
             float loopSpeed = 0.5f;    // Brzina letenja
 
 // Izracunavanje pozicije ptice na osnovu vremena
@@ -521,13 +529,13 @@ int main() {
         glm::mat4 model4 = glm::mat4(1.0f);
 
         float loopRadius1 = 0.9f;
-        float loopHeight1 = 0.2f;
+        float loopHeight1 = 0.5f;
         float loopSpeed1 = 0.6f;
 
         float time1 = glfwGetTime();
-        float x1 = loopRadius * sin(loopSpeed * time);
-        float y1 = loopHeight * cos(3 * loopSpeed * time);
-        float z1 = loopRadius * sin(5 * loopSpeed * time);
+        float x1 = loopRadius1 * sin(loopSpeed * time);
+        float y1 = loopHeight1 * cos(3 * loopSpeed * time);
+        float z1 = loopRadius1 * sin(5 * loopSpeed * time);
 
         model4 = glm::scale(model4, glm::vec3(3.0f));
 
@@ -546,13 +554,13 @@ int main() {
         glm::mat4 model5 = glm::mat4(1.0f);
 
         float loopRadius5 = 0.9f;
-        float loopHeight5 = 0.2f;
+        float loopHeight5 = 0.3f;
         float loopSpeed5 = 0.6f;
 
         float time2 = glfwGetTime();
-        float x2 = loopRadius * sin(loopSpeed * time);
-        float y2 = loopHeight * cos(8 * loopSpeed * time);
-        float z2 = loopRadius * sin(6 * loopSpeed * time);
+        float x2 = loopRadius5 * sin(loopSpeed * time);
+        float y2 = loopHeight5 * cos(8 * loopSpeed * time);
+        float z2 = loopRadius5 * sin(6 * loopSpeed * time);
 
         model5 = glm::scale(model5, glm::vec3(3.0f));
 
@@ -575,9 +583,9 @@ int main() {
         float angle6 = glm::radians(270.0f);
         glm::vec3 axis6(1.0f, 0.0f, 0.0f);
         model6 = glm::rotate(model6, angle6, axis6);
-        model6 = glm::translate(model6, glm::vec3 ( 2.0f, -10.0f, -2.0f));
+        model6 = glm::translate(model6, glm::vec3 ( 1.0f, -10.0f, -2.0f));
 
-        model6 = glm::scale(model6, glm::vec3(0.2,0.2,0.2));
+        model6 = glm::scale(model6, glm::vec3(0.12,0.12,0.12));
 
         ourShader.setMat4("model", model6);
         pecurkaModel.Draw(ourShader);
@@ -594,7 +602,7 @@ int main() {
         model7 = glm::translate(model7, glm::vec3 ( 6.8f, 4.0f, -3.0f));
 
 
-        model7 = glm::scale(model7, glm::vec3(0.4,0.4,0.4));
+        model7 = glm::scale(model7, glm::vec3(0.3,0.3,0.3));
 
         ourShader.setMat4("model", model7);
         pecurkaModel.Draw(ourShader);
@@ -620,6 +628,21 @@ int main() {
             DrawImGui(programState);
 
 //==================================================================================================================
+
+        //-------------------BUANR-------------------------------------------------------------------------------
+        glm::mat4 model12= glm::mat4(1.0f);
+
+        float angle12 = glm::radians(45.0f);
+        glm::vec3 axis12(0.0f, 1.0f, 0.0f);
+        model12 = glm::rotate(model12, angle12, axis12);
+
+        model12 = glm::translate(model12, glm::vec3 (-1.0f, -1.1f, 13.0f));
+
+
+        model12 = glm::scale(model12, glm::vec3(0.1f, 0.1f, 0.1f));
+
+        ourShader.setMat4("model", model12);
+        bunarModel.Draw(ourShader);
 
         //-------------------------------------DRVO---------------------------------------------------------
 
