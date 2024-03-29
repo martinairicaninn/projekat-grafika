@@ -72,7 +72,8 @@ struct ProgramState {
     PointLight pointLight1;
     PointLight pointLight;
     ProgramState()
-            : camera(glm::vec3(0.0f, 0.0f, 3.0f)) {}
+            : camera(glm::vec3(0.0f, 0.0f, 3.0f)) {
+    }
 
     void SaveToFile(std::string filename);
 
@@ -113,9 +114,13 @@ ProgramState *programState;
 
 void DrawImGui(ProgramState *programState);
 glm::vec3 positionKonj;
+
+
+
 int main() {
     // glfw: initialize and configure
     // ------------------------------
+
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -198,6 +203,9 @@ int main() {
 
     Model pecurkaModel("resources/objects/Pecurka/10192_MushroomShitake_v1-L3.obj");
     pecurkaModel.SetShaderTextureNamePrefix("material.");
+
+    Model srceModel("resources/objects/srce/Heart.obj");
+    srceModel.SetShaderTextureNamePrefix("material.");
 
 
     unsigned int hdrFBO;
@@ -393,6 +401,9 @@ int main() {
 
         // don't forget to enable shader before setting uniforms
         ourShader.use();
+
+
+
         pointLight.position = programState->backpackPosition;
 
         ourShader.setVec3("pointLight.position", pointLight.position);
@@ -445,6 +456,21 @@ int main() {
         ourShader.setFloat("pointLight.constant", programState->pointLight1.constant);
         ourShader.setFloat("pointLight.linear", programState->pointLight1.linear);
         ourShader.setFloat("pointLight.quadratic", programState->pointLight1.quadratic);
+
+        glm::mat4 model10= glm::mat4(1.0f);
+
+        float angle10 = glm::radians(0.0f);
+        glm::vec3 axis10(1.0f, 0.0f, 0.0f);
+        model10 = glm::rotate(model10, angle10, axis10);
+        model10 = glm::rotate(model10, glm::radians(40.0f), glm::vec3 (0.0, 1.0, 0.0));
+        model10 = glm::translate(model10, glm::vec3 (10.0f, 1.5f, 12.15f));
+
+
+        model10 = glm::scale(model10, glm::vec3(0.2f, 0.2f, 0.2f));
+
+        ourShader.setMat4("model", model10);
+        srceModel.Draw(ourShader);
+
 
 
 //-------------------------------------------------------------------------------------------------------------
@@ -677,9 +703,9 @@ void processInput(GLFWwindow *window) {
         programState->camera.ProcessKeyboard(FORWARD, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
         programState->camera.ProcessKeyboard(BACKWARD, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
-        programState->camera.ProcessKeyboard(LEFT, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+        programState->camera.ProcessKeyboard(LEFT, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
         programState->camera.ProcessKeyboard(RIGHT, deltaTime);
 
 
@@ -835,15 +861,13 @@ unsigned int loadCubemap(vector<std::string> faces)
 
 unsigned int quadVAO = 0;
 unsigned int quadVBO;
-void renderQuad()
-{
-    if (quadVAO == 0)
-    {
+void renderQuad() {
+    if (quadVAO == 0) {
         float quadVertices[] = {
                 // positions        // texture Coords
-                -1.0f,  1.0f, 0.0f, 0.0f, 1.0f,
+                -1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
                 -1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
-                1.0f,  1.0f, 0.0f, 1.0f, 1.0f,
+                1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
                 1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
         };
         // setup plane VAO
@@ -853,9 +877,9 @@ void renderQuad()
         glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
         glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) 0);
         glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) (3 * sizeof(float)));
     }
     glBindVertexArray(quadVAO);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);

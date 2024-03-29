@@ -14,6 +14,6 @@
 -- Found OpenGL: /usr/lib/x86_64-linux-gnu/libOpenGL.so   
 -- Found GLFW3: /usr/lib/x86_64-linux-gnu/libglfw.so  
 -- Found ASSIMP: /usr/lib/x86_64-linux-gnu/libassimp.so
--- Configuring done (0.8s)
+-- Configuring done (1.0s)
 -- Generating done (0.0s)
 -- Build files have been written to: /home/martina/Desktop/GRAFIKA/projekat-grafika/cmake-build-debug
