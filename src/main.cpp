@@ -70,6 +70,7 @@ struct ProgramState {
     glm::vec3 backpackPosition = glm::vec3(0.0f);
     float backpackScale = 1.0f;
     PointLight pointLightMedved;
+    PointLight pointLightMedved1;
     PointLight pointLight;
     ProgramState()
             : camera(glm::vec3(0.0f, 0.0f, 3.0f)) {}
@@ -276,6 +277,8 @@ int main() {
     programState->pointLightMedved.quadratic = 0.032f;
 
 
+
+
     ourShader.use();
     ourShader.setInt("diffuseTexture", 0);
     blendShader.use();
@@ -444,6 +447,7 @@ int main() {
         konjModel.Draw(ourShader);
         //=======================================================================================================
 
+        ourShader.use();
         ourShader.setVec3("pointLight.position", programState->pointLightMedved.position);
         ourShader.setVec3("pointLight.ambient", programState->pointLightMedved.ambient);
         ourShader.setVec3("pointLight.diffuse", programState->pointLightMedved.diffuse);
@@ -453,22 +457,21 @@ int main() {
         ourShader.setFloat("pointLight.quadratic", programState->pointLightMedved.quadratic);
 
 
-        //------------------------------------MODEL MEDVEDA-----------------------------------------------------
-        glm::mat4 model2 = glm::mat4(1.0f);
+//-------------------------------------------MODEL KONJA2---------------------------------------------------------
+        glm::mat4 model9= glm::mat4(1.0f);
 
         // Primeniti rotaciju modela oko određene ose (na primer, oko y-ose za 90 stepeni)
-        float angle2 = glm::radians(180.0f); // Ugao rotacije, možemo promeniti ovu vrednost po potrebi
-        glm::vec3 axis2(0.0f, 1.0f, 0.0f);// Osa rotacije, ovde smo odabrali y-osu
-        model2 = glm::rotate(model2, angle2, axis);
-        model2 = glm::rotate(model2, glm::radians(-14.0f), glm::vec3(1.0,0.0,0.0));
+        float angle9 = glm::radians(198.0f); // Ugao rotacije, možemo promeniti ovu vrednost po potrebi
+        glm::vec3 axis9(0.0f, 1.0f, 0.0f); // Osa rotacije, ovde smo odabrali y-osu
+        model9 = glm::rotate(model9, angle9, axis9);
         // Može se  promeniti ova vrednost u zavisnosti od toga koliko želimo da pomerimo model
-        model2 = glm::translate(model2, glm::vec3 (11.0f, 2.7f, -5.0f));
+        model9 = glm::translate(model9, glm::vec3 (-3.0f, -0.83f, -10.1f));
 
 
-        model2 = glm::scale(model2, glm::vec3(0.5));
+        model9 = glm::scale(model9, glm::vec3(0.82, 0.82, 0.82));
 
-        ourShader.setMat4("model", model2);
-        medvedModel.Draw(ourShader);
+        ourShader.setMat4("model", model9);
+        konjModel.Draw(ourShader);
 
         //=========================================================================================================
 
