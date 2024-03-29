@@ -70,6 +70,7 @@ struct ProgramState {
     glm::vec3 backpackPosition = glm::vec3(0.0f);
     float backpackScale = 1.0f;
     PointLight pointLight1;
+    PointLight pointLight2;
     PointLight pointLight;
     ProgramState()
             : camera(glm::vec3(0.0f, 0.0f, 3.0f)) {
@@ -207,6 +208,9 @@ int main() {
     Model srceModel("resources/objects/srce/Heart.obj");
     srceModel.SetShaderTextureNamePrefix("material.");
 
+    Model drvoModel("resources/objects/Tree/Tree.obj");
+    drvoModel.SetShaderTextureNamePrefix("material.");
+
 
     unsigned int hdrFBO;
     glGenFramebuffers(1, &hdrFBO);
@@ -282,6 +286,14 @@ int main() {
     programState->pointLight1.constant = 1.0f;
     programState->pointLight1.linear = 0.09f;
     programState->pointLight1.quadratic = 0.032f;
+
+    programState->pointLight2.position = glm::vec3(10.0f, 2.0f, -3.0f);
+    programState->pointLight2.ambient = glm::vec3(3.5f, 3.5f, 3.5f);
+    programState->pointLight2.diffuse = glm::vec3(2.0f, 2.0f, 2.0f);
+    programState->pointLight2.specular = glm::vec3(5.0f, 5.0f, 5.0f);
+    programState->pointLight2.constant = 1.0f;
+    programState->pointLight2.linear = 0.09f;
+    programState->pointLight2.quadratic = 0.032f;
 
 
 
@@ -457,23 +469,7 @@ int main() {
         ourShader.setFloat("pointLight.linear", programState->pointLight1.linear);
         ourShader.setFloat("pointLight.quadratic", programState->pointLight1.quadratic);
 
-        glm::mat4 model10= glm::mat4(1.0f);
-
-        float angle10 = glm::radians(0.0f);
-        glm::vec3 axis10(1.0f, 0.0f, 0.0f);
-        model10 = glm::rotate(model10, angle10, axis10);
-        model10 = glm::rotate(model10, glm::radians(40.0f), glm::vec3 (0.0, 1.0, 0.0));
-        model10 = glm::translate(model10, glm::vec3 (10.0f, 1.5f, 12.15f));
-
-
-        model10 = glm::scale(model10, glm::vec3(0.2f, 0.2f, 0.2f));
-
-        ourShader.setMat4("model", model10);
-        srceModel.Draw(ourShader);
-
-
-
-//-------------------------------------------------------------------------------------------------------------
+//-------------------------------------------KONJ2------------------------------------------------------------------
         glm::mat4 model9= glm::mat4(1.0f);
 
         float angle9 = glm::radians(198.0f);
@@ -495,7 +491,7 @@ int main() {
 
 // Definisanje parametra za putanju ptice u obliku znaka beskonacnosti
             float loopRadius = 0.8f;   // Poluprecnik krivine
-            float loopHeight = 0.5f;   // Visina leta
+            float loopHeight = 0.3f;   // Visina leta
             float loopSpeed = 0.5f;    // Brzina letenja
 
 // Izracunavanje pozicije ptice na osnovu vremena
@@ -509,7 +505,7 @@ int main() {
 // Postavnjanje pozicije ptice na izracunate koordinate
 
             model3 = glm::translate(model3, glm::vec3(x, y, z));
-            model3 = glm::translate(model3, glm::vec3(2, 1.2, 2));
+            model3 = glm::translate(model3, glm::vec3(2, 1.7, 2));
 
 // Rotiranje ptice tako da gleda u pravcu leta (ka centru znaka beskonacnosti)
             glm::vec3 direction(-x, -y, -z);
@@ -525,7 +521,7 @@ int main() {
         glm::mat4 model4 = glm::mat4(1.0f);
 
         float loopRadius1 = 0.9f;
-        float loopHeight1 = 0.4f;
+        float loopHeight1 = 0.2f;
         float loopSpeed1 = 0.6f;
 
         float time1 = glfwGetTime();
@@ -536,7 +532,7 @@ int main() {
         model4 = glm::scale(model4, glm::vec3(3.0f));
 
         model4 = glm::translate(model4, glm::vec3(x1, y1, z1));
-        model4 = glm::translate(model4, glm::vec3(3, 1.2, 2));
+        model4 = glm::translate(model4, glm::vec3(3, 1.7, 2));
 
         glm::vec3 direction1(-x1, -y1, -z1);
         glm::vec3 up1(0.0f, 1.0f, 0.0f);
@@ -550,7 +546,7 @@ int main() {
         glm::mat4 model5 = glm::mat4(1.0f);
 
         float loopRadius5 = 0.9f;
-        float loopHeight5 = 0.4f;
+        float loopHeight5 = 0.2f;
         float loopSpeed5 = 0.6f;
 
         float time2 = glfwGetTime();
@@ -561,7 +557,7 @@ int main() {
         model5 = glm::scale(model5, glm::vec3(3.0f));
 
         model5 = glm::translate(model5, glm::vec3(x2, y2, z2));
-        model5 = glm::translate(model5, glm::vec3(3, 1.2, 2));
+        model5 = glm::translate(model5, glm::vec3(3, 1.7, 2));
 
         glm::vec3 direction2(-x2, -y2, -z2);
         glm::vec3 up2(0.0f, 1.0f, 0.0f);
@@ -624,6 +620,22 @@ int main() {
             DrawImGui(programState);
 
 //==================================================================================================================
+
+        //-------------------------------------DRVO---------------------------------------------------------
+
+        glm::mat4 model11= glm::mat4(1.0f);
+
+        float angle11 = glm::radians(45.0f);
+        glm::vec3 axis11(0.0f, 1.0f, 0.0f);
+        model1 = glm::rotate(model11, angle11, axis11);
+
+        model11 = glm::translate(model11, glm::vec3 (12.0f, -1.1f, 8.0f));
+
+
+        model11 = glm::scale(model11, glm::vec3(1.5, 1.5, 1.5));
+
+        ourShader.setMat4("model", model11);
+        drvoModel.Draw(ourShader);
 
         // draw skybox as last
         glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
