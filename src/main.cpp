@@ -636,7 +636,7 @@ int main() {
         glm::vec3 axis12(0.0f, 1.0f, 0.0f);
         model12 = glm::rotate(model12, angle12, axis12);
 
-        model12 = glm::translate(model12, glm::vec3 (-1.0f, -1.1f, 13.0f));
+        model12 = glm::translate(model12, glm::vec3 (-1.0f, -1.1f, 13.5f));
 
 
         model12 = glm::scale(model12, glm::vec3(0.1f, 0.1f, 0.1f));
