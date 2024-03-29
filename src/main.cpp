@@ -69,8 +69,7 @@ struct ProgramState {
     bool CameraMouseMovementUpdateEnabled = true;
     glm::vec3 backpackPosition = glm::vec3(0.0f);
     float backpackScale = 1.0f;
-    PointLight pointLightMedved;
-    PointLight pointLightMedved1;
+    PointLight pointLight1;
     PointLight pointLight;
     ProgramState()
             : camera(glm::vec3(0.0f, 0.0f, 3.0f)) {}
@@ -268,13 +267,13 @@ int main() {
     pointLight.linear = 0.09f;
     pointLight.quadratic = 0.032f;
 
-    programState->pointLightMedved.position = glm::vec3(10.0f, 2.0f, -3.0f);
-    programState->pointLightMedved.ambient = glm::vec3(3.5f, 3.5f, 3.5f);
-    programState->pointLightMedved.diffuse = glm::vec3(2.0f, 2.0f, 2.0f);
-    programState->pointLightMedved.specular = glm::vec3(5.0f, 5.0f, 5.0f);
-    programState->pointLightMedved.constant = 1.0f;
-    programState->pointLightMedved.linear = 0.09f;
-    programState->pointLightMedved.quadratic = 0.032f;
+    programState->pointLight1.position = glm::vec3(10.0f, 2.0f, -3.0f);
+    programState->pointLight1.ambient = glm::vec3(3.5f, 3.5f, 3.5f);
+    programState->pointLight1.diffuse = glm::vec3(2.0f, 2.0f, 2.0f);
+    programState->pointLight1.specular = glm::vec3(5.0f, 5.0f, 5.0f);
+    programState->pointLight1.constant = 1.0f;
+    programState->pointLight1.linear = 0.09f;
+    programState->pointLight1.quadratic = 0.032f;
 
 
 
@@ -288,10 +287,6 @@ int main() {
     shaderBloom.use();
     shaderBloom.setInt("scene", 0);
     shaderBloom.setInt("bloomBlur", 1);
-
-
-
-
 
 
     float skyboxVertices[] = {
@@ -339,7 +334,6 @@ int main() {
             1.0f, -1.0f,  1.0f
     };
 
-    // cube VAO
 
     // skybox VAO
     unsigned int skyboxVAO, skyboxVBO;
@@ -370,9 +364,6 @@ int main() {
 
     skyboxShader.use();
     skyboxShader.setInt("skybox", 0);
-
-
-
 
     // draw in wireframe
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -425,7 +416,7 @@ int main() {
         glCullFace(GL_FRONT);
         glFrontFace(GL_CW);
 
-        //blending
+        //Blending
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -433,11 +424,10 @@ int main() {
         //--------------------------------------MODEL KONJA-----------------------------------------------------
         glm::mat4 model1= glm::mat4(1.0f);
 
-      // Primeniti rotaciju modela oko određene ose (na primer, oko y-ose za 90 stepeni)
-        float angle = glm::radians(45.0f); // Ugao rotacije, možemo promeniti ovu vrednost po potrebi
-        glm::vec3 axis(0.0f, 1.0f, 0.0f); // Osa rotacije, ovde smo odabrali y-osu
+        float angle = glm::radians(45.0f);
+        glm::vec3 axis(0.0f, 1.0f, 0.0f);
         model1 = glm::rotate(model1, angle, axis);
-        // Može se  promeniti ova vrednost u zavisnosti od toga koliko želimo da pomerimo model
+
         model1 = glm::translate(model1, glm::vec3 (1.0f, -1.1f, 0.0f));
         model1 = glm::translate(model1, positionKonj);
 
@@ -448,23 +438,21 @@ int main() {
         //=======================================================================================================
 
         ourShader.use();
-        ourShader.setVec3("pointLight.position", programState->pointLightMedved.position);
-        ourShader.setVec3("pointLight.ambient", programState->pointLightMedved.ambient);
-        ourShader.setVec3("pointLight.diffuse", programState->pointLightMedved.diffuse);
-        ourShader.setVec3("pointLight.specular", programState->pointLightMedved.specular);
-        ourShader.setFloat("pointLight.constant", programState->pointLightMedved.constant);
-        ourShader.setFloat("pointLight.linear", programState->pointLightMedved.linear);
-        ourShader.setFloat("pointLight.quadratic", programState->pointLightMedved.quadratic);
+        ourShader.setVec3("pointLight.position", programState->pointLight1.position);
+        ourShader.setVec3("pointLight.ambient", programState->pointLight1.ambient);
+        ourShader.setVec3("pointLight.diffuse", programState->pointLight1.diffuse);
+        ourShader.setVec3("pointLight.specular", programState->pointLight1.specular);
+        ourShader.setFloat("pointLight.constant", programState->pointLight1.constant);
+        ourShader.setFloat("pointLight.linear", programState->pointLight1.linear);
+        ourShader.setFloat("pointLight.quadratic", programState->pointLight1.quadratic);
 
 
-//-------------------------------------------MODEL KONJA2---------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------
         glm::mat4 model9= glm::mat4(1.0f);
 
-        // Primeniti rotaciju modela oko određene ose (na primer, oko y-ose za 90 stepeni)
-        float angle9 = glm::radians(198.0f); // Ugao rotacije, možemo promeniti ovu vrednost po potrebi
-        glm::vec3 axis9(0.0f, 1.0f, 0.0f); // Osa rotacije, ovde smo odabrali y-osu
+        float angle9 = glm::radians(198.0f);
+        glm::vec3 axis9(0.0f, 1.0f, 0.0f);
         model9 = glm::rotate(model9, angle9, axis9);
-        // Može se  promeniti ova vrednost u zavisnosti od toga koliko želimo da pomerimo model
         model9 = glm::translate(model9, glm::vec3 (-3.0f, -0.83f, -10.1f));
 
 
@@ -507,7 +495,7 @@ int main() {
             ourShader.setMat4("model", model3);
             pticaModel.Draw(ourShader);
 
-//---------------------------------------------- 2 MODEL PTICE -------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------
         glm::mat4 model4 = glm::mat4(1.0f);
 
         float loopRadius1 = 0.9f;
@@ -532,7 +520,7 @@ int main() {
         ourShader.setMat4("model", model4);
         pticaModel.Draw(ourShader);
 
-        //------------------------------------- 3 MODEL PTICE ----------------------------------------------------
+        //---------------------------------------------------------------------------------------------------------
         glm::mat4 model5 = glm::mat4(1.0f);
 
         float loopRadius5 = 0.9f;
@@ -562,13 +550,10 @@ int main() {
 
         glm::mat4 model6= glm::mat4(1.0f);
 
-        // Primeniti rotaciju modela oko određene ose (na primer, oko y-ose za 90 stepeni)
-        float angle6 = glm::radians(270.0f); // Ugao rotacije, možemo promeniti ovu vrednost po potrebi
-        glm::vec3 axis6(1.0f, 0.0f, 0.0f); // Osa rotacije, ovde smo odabrali y-osu
+        float angle6 = glm::radians(270.0f);
+        glm::vec3 axis6(1.0f, 0.0f, 0.0f);
         model6 = glm::rotate(model6, angle6, axis6);
-        // MožE se  promeniti ova vrednost u zavisnosti od toga koliko želimo da pomerimo model
         model6 = glm::translate(model6, glm::vec3 ( 2.0f, -10.0f, -2.0f));
-
 
         model6 = glm::scale(model6, glm::vec3(0.2,0.2,0.2));
 
@@ -730,8 +715,8 @@ void processInput(GLFWwindow *window) {
         exposure += 0.09f;
     }
 
-    float maxBackwardDistance = -2.0f; // Prilagodite prema potrebi
-    float maxForwardDistance = 8.0f;   // Prilagodite prema potrebi
+    float maxBackwardDistance = -2.0f; // Prilagodi prema potrebi
+    float maxForwardDistance = 8.0f;   // Prilagodi prema potrebi
     positionKonj.z = glm::clamp(positionKonj.z, maxBackwardDistance, maxForwardDistance);
 }
 
