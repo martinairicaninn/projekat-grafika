@@ -640,8 +640,7 @@ int main() {
         ourShader.setMat4("model", model7);
         pecurkaModel.Draw(ourShader);
 
-        if (programState->ImGuiEnabled)
-            DrawImGui(programState);
+
 
 //==================================================================================================================
 
@@ -704,6 +703,9 @@ int main() {
         shaderBloom.setFloat("exposure", exposure);
         renderQuad();
 
+
+        if (programState->ImGuiEnabled)
+            DrawImGui(programState);
 
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
