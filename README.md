@@ -9,7 +9,7 @@ Prazan projekat sa pratećim bibliotekama koje koristimo na času.
 5. Zaglavlja (h i hpp) fajlovi idu u include
 6. Šejderi idu u folder shaders. `Vertex shader` ima ekstenziju `.vs`, `fragment shader` ima ekstenziju `.fs`
 7. ALT+SHIFT+F10 -> project_base -> run
-8. A,D - kretanje konja
+8. A, D - kretanje konja
 9. B - ukljucivanje/iskljucivanje bloom efekta
-10. V,N - smanjivanje/pojacavanje exposure-a
+10. V, N - smanjivanje/pojacavanje exposure-a
 11. UP, DOWN, LEFT, RIGTH - kretanje po sceni
