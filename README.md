@@ -13,8 +13,8 @@ Prazan projekat sa pratećim bibliotekama koje koristimo na času.
 # Komande 
 8. A, D - kretanje konja (Adrian)
 9. W, S - kretanje kobile (Iris)
-9. B - ukljucivanje/iskljucivanje bloom-a
-10. V, N - smanjivanje/pojacavanje expouser-a
+9. H - ukljucivanje/iskljucivanje bloom-a
+10. G, J - smanjivanje/pojacavanje expouser-a
 11. LEFT, RIGHT, UP, DOWN - kretanje po sceni
 
 

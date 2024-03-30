@@ -40,7 +40,9 @@ const unsigned int SCR_HEIGHT = 600;
 bool bloom= false;
 float exposure= 1.0f;
 bool bloomKeyPressed = false;
-bool hdr = false;
+
+bool flashLight = false;
+bool flashLightKeyPressed = false;
 
 // camera
 
@@ -284,24 +286,6 @@ int main() {
     pointLight.linear = 0.09f;
     pointLight.quadratic = 0.032f;
 
-    programState->pointLight1.position = glm::vec3(10.0f, 2.0f, -3.0f);
-    programState->pointLight1.ambient = glm::vec3(3.5f, 3.5f, 3.5f);
-    programState->pointLight1.diffuse = glm::vec3(2.0f, 2.0f, 2.0f);
-    programState->pointLight1.specular = glm::vec3(5.0f, 5.0f, 5.0f);
-    programState->pointLight1.constant = 1.0f;
-    programState->pointLight1.linear = 0.09f;
-    programState->pointLight1.quadratic = 0.032f;
-
-    programState->pointLight2.position = glm::vec3(10.0f, 2.0f, -3.0f);
-    programState->pointLight2.ambient = glm::vec3(3.5f, 3.5f, 3.5f);
-    programState->pointLight2.diffuse = glm::vec3(2.0f, 2.0f, 2.0f);
-    programState->pointLight2.specular = glm::vec3(5.0f, 5.0f, 5.0f);
-    programState->pointLight2.constant = 1.0f;
-    programState->pointLight2.linear = 0.09f;
-    programState->pointLight2.quadratic = 0.032f;
-
-
-
 
     ourShader.use();
     ourShader.setInt("diffuseTexture", 0);
@@ -432,12 +416,15 @@ int main() {
         ourShader.setFloat("pointLight.quadratic", pointLight.quadratic);
         ourShader.setVec3("viewPosition", programState->camera.Position);
         ourShader.setFloat("material.shininess", 32.0f);
+
+
         // view/projection transformations
         glm::mat4 projection = glm::perspective(glm::radians(programState->camera.Zoom),
                                                 (float) SCR_WIDTH / (float) SCR_HEIGHT, 0.1f, 100.0f);
         glm::mat4 view = programState->camera.GetViewMatrix();
         ourShader.setMat4("projection", projection);
         ourShader.setMat4("view", view);
+
 
         //Face culling
         glEnable(GL_CULL_FACE);
@@ -455,30 +442,33 @@ int main() {
         float angle = glm::radians(45.0f);
         glm::vec3 axis(0.0f, 1.0f, 0.0f);
         model1 = glm::rotate(model1, angle, axis);
-
         model1 = glm::translate(model1, glm::vec3 (1.0f, -1.1f, 0.0f));
         model1 = glm::translate(model1, positionKonj);
-
         model1 = glm::scale(model1, glm::vec3(programState->backpackScale));
 
         ourShader.setMat4("model", model1);
         konjModel.Draw(ourShader);
+
+
+
         //=======================================================================================================
+        blendShader.use();
+        blendShader.setVec3("viewPosition", programState->camera.Position);
+        blendShader.setFloat("material.shininess", 32.0f);
+        blendShader.setMat4("projection", projection);
+        blendShader.setMat4("view", view);
 
 
+        blendShader.setVec3("pointLight.position", glm::vec3(10.0f, 4.0f, -6.0f));
+        blendShader.setVec3("pointLight.ambient", glm::vec3 (9.5f, 9.5f, 9.5f));
+        blendShader.setVec3("pointLight.diffuse", glm::vec3 (1.0f, 1.0f, 1.0f));
+        blendShader.setVec3("pointLight.specular",glm::vec3 (2.0f, 2.0f, 2.0f) );
+        blendShader.setFloat("pointLight.constant", 1.0f);
+        blendShader.setFloat("pointLight.linear", 0.09f);
+        blendShader.setFloat("pointLight.quadratic", 0.032);
 
 
-
-        ourShader.use();
-        ourShader.setVec3("pointLight.position", programState->pointLight1.position);
-        ourShader.setVec3("pointLight.ambient", programState->pointLight1.ambient);
-        ourShader.setVec3("pointLight.diffuse", programState->pointLight1.diffuse);
-        ourShader.setVec3("pointLight.specular", programState->pointLight1.specular);
-        ourShader.setFloat("pointLight.constant", programState->pointLight1.constant);
-        ourShader.setFloat("pointLight.linear", programState->pointLight1.linear);
-        ourShader.setFloat("pointLight.quadratic", programState->pointLight1.quadratic);
-
-//-------------------------------------------------------------------------------------------------------------
+//---------------------------------------------KONJ2----------------------------------------------------------------
         glm::mat4 model9= glm::mat4(1.0f);
 
         float angle9 = glm::radians(220.0f);
@@ -486,12 +476,12 @@ int main() {
         model9 = glm::rotate(model9, angle9, axis9);
         model9 = glm::translate(model9, glm::vec3 (0.0f, -1.0f, -11.1f));
         model9 = glm::translate(model9, positionKonj2);
-
-
         model9 = glm::scale(model9, glm::vec3(0.89, 0.89, 0.89));
 
         ourShader.setMat4("model", model9);
         konjModel.Draw(ourShader);
+
+
 
 
         //=========================================================================================================
@@ -513,8 +503,8 @@ int main() {
 
 
             model3 = glm::scale(model3, glm::vec3(3.0f));
-// Postavnjanje pozicije ptice na izracunate koordinate
 
+// Postavnjanje pozicije ptice na izracunate koordinate
             model3 = glm::translate(model3, glm::vec3(x, y, z));
             model3 = glm::translate(model3, glm::vec3(2, 1.7, 2));
 
@@ -541,7 +531,6 @@ int main() {
         float z1 = loopRadius1 * sin(5 * loopSpeed * time);
 
         model4 = glm::scale(model4, glm::vec3(3.0f));
-
         model4 = glm::translate(model4, glm::vec3(x1, y1, z1));
         model4 = glm::translate(model4, glm::vec3(3, 1.7, 2));
 
@@ -566,7 +555,6 @@ int main() {
         float z2 = loopRadius5 * sin(6 * loopSpeed * time);
 
         model5 = glm::scale(model5, glm::vec3(3.0f));
-
         model5 = glm::translate(model5, glm::vec3(x2, y2, z2));
         model5 = glm::translate(model5, glm::vec3(3, 1.7, 2));
 
@@ -578,16 +566,13 @@ int main() {
         ourShader.setMat4("model", model5);
         pticaModel.Draw(ourShader);
 //=================================================================================================================
-        //-------------------BUANR-------------------------------------------------------------------------------
+        //--------------------------------------------BUANR----------------------------------------------
         glm::mat4 model12= glm::mat4(1.0f);
 
         float angle12 = glm::radians(250.0f);
         glm::vec3 axis12(0.0f, 1.0f, 0.0f);
         model12 = glm::rotate(model12, angle12, axis12);
-
         model12 = glm::translate(model12, glm::vec3 (-1.0f, -1.1f, -2.5f));
-
-
         model12 = glm::scale(model12, glm::vec3(0.1f, 0.1f, 0.1f));
 
         ourShader.setMat4("model", model12);
@@ -771,26 +756,28 @@ void processInput(GLFWwindow *window) {
 
     }
 
-    if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS && !bloomKeyPressed)
+    if (glfwGetKey(window, GLFW_KEY_H) == GLFW_PRESS && !bloomKeyPressed)
     {
         bloom = !bloom;
         bloomKeyPressed = true;
     }
-    if (glfwGetKey(window, GLFW_KEY_B) == GLFW_RELEASE)
+    if (glfwGetKey(window, GLFW_KEY_H) == GLFW_RELEASE)
     {
         bloomKeyPressed = false;
     }
-    if (glfwGetKey(window, GLFW_KEY_V) == GLFW_PRESS)
+    if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS)
     {
         if (exposure > 0.0f)
             exposure -= 0.09f;
         else
             exposure = 0.0f;
     }
-    else if (glfwGetKey(window, GLFW_KEY_N) == GLFW_PRESS)
+    else if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS)
     {
         exposure += 0.09f;
     }
+
+
 
 
 
@@ -883,6 +870,9 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
         }
 
     }
+
+    if (key == GLFW_KEY_M && action == GLFW_PRESS){}
+
 
 
 }
