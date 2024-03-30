@@ -116,6 +116,7 @@ ProgramState *programState;
 
 void DrawImGui(ProgramState *programState);
 glm::vec3 positionKonj;
+glm::vec3 positionKonj2;
 
 
 
@@ -480,13 +481,14 @@ int main() {
 //-------------------------------------------------------------------------------------------------------------
         glm::mat4 model9= glm::mat4(1.0f);
 
-        float angle9 = glm::radians(198.0f);
+        float angle9 = glm::radians(220.0f);
         glm::vec3 axis9(0.0f, 1.0f, 0.0f);
         model9 = glm::rotate(model9, angle9, axis9);
-        model9 = glm::translate(model9, glm::vec3 (-3.0f, -0.83f, -10.1f));
+        model9 = glm::translate(model9, glm::vec3 (0.0f, -1.0f, -11.1f));
+        model9 = glm::translate(model9, positionKonj2);
 
 
-        model9 = glm::scale(model9, glm::vec3(0.82, 0.82, 0.82));
+        model9 = glm::scale(model9, glm::vec3(0.89, 0.89, 0.89));
 
         ourShader.setMat4("model", model9);
         konjModel.Draw(ourShader);
@@ -756,6 +758,17 @@ void processInput(GLFWwindow *window) {
 
     }
 
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+        positionKonj2.z-= 0.2;
+        // Pomeri model ulevo
+
+    }
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+        // Pomeri model udesno
+        positionKonj2.z +=0.2;
+
+    }
+
     if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS && !bloomKeyPressed)
     {
         bloom = !bloom;
@@ -777,16 +790,16 @@ void processInput(GLFWwindow *window) {
         exposure += 0.09f;
     }
 
-    if (glfwGetKey(window, GLFW_KEY_H) == GLFW_PRESS){
-
-        hdr = !hdr;
-
-    }
 
 
-    float maxBackwardDistance = -1.0f; // Prilagodi prema potrebi
-    float maxForwardDistance = 8.0f;   // Prilagodi prema potrebi
+    float maxBackwardDistance = -1.0f; // Prilagodi prema potrebiA
+    float maxForwardDistance = 10.0f;   // Prilagodi prema potrebi
     positionKonj.z = glm::clamp(positionKonj.z, maxBackwardDistance, maxForwardDistance);
+
+
+    float maxBackwardDistance2 = -1.0f; // Prilagodi prema potrebi
+    float maxForwardDistance2 = 6.5f;   // Prilagodi prema potrebi
+    positionKonj2.z = glm::clamp(positionKonj2.z, maxBackwardDistance2, maxForwardDistance2);
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
