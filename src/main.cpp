@@ -40,6 +40,7 @@ const unsigned int SCR_HEIGHT = 600;
 bool bloom= false;
 float exposure= 1.0f;
 bool bloomKeyPressed = false;
+bool hdr = false;
 
 // camera
 
@@ -575,7 +576,20 @@ int main() {
         ourShader.setMat4("model", model5);
         pticaModel.Draw(ourShader);
 //=================================================================================================================
+        //-------------------BUANR-------------------------------------------------------------------------------
+        glm::mat4 model12= glm::mat4(1.0f);
 
+        float angle12 = glm::radians(250.0f);
+        glm::vec3 axis12(0.0f, 1.0f, 0.0f);
+        model12 = glm::rotate(model12, angle12, axis12);
+
+        model12 = glm::translate(model12, glm::vec3 (-1.0f, -1.1f, -2.5f));
+
+
+        model12 = glm::scale(model12, glm::vec3(0.1f, 0.1f, 0.1f));
+
+        ourShader.setMat4("model", model12);
+        bunarModel.Draw(ourShader);
 //------------------------------------------MODEL PECURKE---------------------------------------------------------
 
         glm::mat4 model6= glm::mat4(1.0f);
@@ -629,20 +643,7 @@ int main() {
 
 //==================================================================================================================
 
-        //-------------------BUANR-------------------------------------------------------------------------------
-        glm::mat4 model12= glm::mat4(1.0f);
 
-        float angle12 = glm::radians(45.0f);
-        glm::vec3 axis12(0.0f, 1.0f, 0.0f);
-        model12 = glm::rotate(model12, angle12, axis12);
-
-        model12 = glm::translate(model12, glm::vec3 (-1.0f, -1.1f, 13.5f));
-
-
-        model12 = glm::scale(model12, glm::vec3(0.1f, 0.1f, 0.1f));
-
-        ourShader.setMat4("model", model12);
-        bunarModel.Draw(ourShader);
 
         //-------------------------------------DRVO---------------------------------------------------------
 
@@ -776,7 +777,14 @@ void processInput(GLFWwindow *window) {
         exposure += 0.09f;
     }
 
-    float maxBackwardDistance = -2.0f; // Prilagodi prema potrebi
+    if (glfwGetKey(window, GLFW_KEY_H) == GLFW_PRESS){
+
+        hdr = !hdr;
+
+    }
+
+
+    float maxBackwardDistance = -1.0f; // Prilagodi prema potrebi
     float maxForwardDistance = 8.0f;   // Prilagodi prema potrebi
     positionKonj.z = glm::clamp(positionKonj.z, maxBackwardDistance, maxForwardDistance);
 }
