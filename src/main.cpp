@@ -272,8 +272,6 @@ int main() {
     }
 
 
-    
-
 
     PointLight& pointLight = programState->pointLight;
     pointLight.position = glm::vec3(4.0f, 4.0, 0.0);
@@ -783,8 +781,6 @@ void processInput(GLFWwindow *window) {
     }
 
 
-
-
     if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS && !blinnKeyPressed)
     {
         blinn = !blinn;
@@ -796,13 +792,13 @@ void processInput(GLFWwindow *window) {
     }
 
 
-    float maxBackwardDistance = -1.0f; // Prilagodi prema potrebiA
+    float maxBackwardDistance = -1.0f; // Prilagodi prema potrebi
     float maxForwardDistance = 10.0f;   // Prilagodi prema potrebi
     positionKonj.z = glm::clamp(positionKonj.z, maxBackwardDistance, maxForwardDistance);
 
 
-    float maxBackwardDistance2 = -1.0f; // Prilagodi prema potrebi
-    float maxForwardDistance2 = 6.5f;   // Prilagodi prema potrebi
+    float maxBackwardDistance2 = -1.0f;
+    float maxForwardDistance2 = 6.5f;
     positionKonj2.z = glm::clamp(positionKonj2.z, maxBackwardDistance2, maxForwardDistance2);
 }
 
