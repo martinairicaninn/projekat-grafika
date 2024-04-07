@@ -17,5 +17,6 @@ Prazan projekat sa pratećim bibliotekama koje koristimo na času.
 10. B - ukljucivanje/iskljucivanje blinn-a
 10. G, J - smanjivanje/pojacavanje expouser-a
 11. LEFT, RIGHT, UP, DOWN - kretanje po sceni
+12. B - blinn
 
 
