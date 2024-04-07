@@ -37,12 +37,13 @@ unsigned int loadCubemap(vector<std::string> faces);
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
-bool bloom= false;
-float exposure= 1.0f;
+bool bloom = false;
+float exposure = 1.0f;
 bool bloomKeyPressed = false;
+bool blinn = false;
+bool blinnKeyPressed = false;
 
-bool flashLight = false;
-bool flashLightKeyPressed = false;
+
 
 // camera
 
@@ -200,8 +201,7 @@ int main() {
     Model konjModel("resources/objects/HorseArmor/HorseArmor.obj");
     konjModel.SetShaderTextureNamePrefix("material.");
 
-    Model medvedModel("resources/objects/BearSaddle/BearSaddle.obj");
-    medvedModel.SetShaderTextureNamePrefix("material.");
+
 
     Model pticaModel("resources/objects/gull/GULL.OBJ");
     pticaModel.SetShaderTextureNamePrefix("material.");
@@ -209,14 +209,11 @@ int main() {
     Model pecurkaModel("resources/objects/Pecurka/10192_MushroomShitake_v1-L3.obj");
     pecurkaModel.SetShaderTextureNamePrefix("material.");
 
-    Model srceModel("resources/objects/srce/Heart.obj");
-    srceModel.SetShaderTextureNamePrefix("material.");
-
     Model drvoModel("resources/objects/Tree/Tree.obj");
     drvoModel.SetShaderTextureNamePrefix("material.");
 
-    Model bunarModel("resources/objects/bunar/old_well.obj");
-    bunarModel.SetShaderTextureNamePrefix("material.");
+    Model drvo2Model("resources/objects/Tree/Tree.obj");
+    drvo2Model.SetShaderTextureNamePrefix("material.");
 
 
     unsigned int hdrFBO;
@@ -274,6 +271,8 @@ int main() {
             std::cout << "Framebuffer not complete!" << std::endl;
     }
 
+
+    
 
 
     PointLight& pointLight = programState->pointLight;
@@ -405,6 +404,9 @@ int main() {
 
 
 
+
+
+        ourShader.setInt("blinn", blinn);
         pointLight.position = programState->backpackPosition;
 
         ourShader.setVec3("pointLight.position", pointLight.position);
@@ -452,20 +454,23 @@ int main() {
 
 
         //=======================================================================================================
-        blendShader.use();
-        blendShader.setVec3("viewPosition", programState->camera.Position);
-        blendShader.setFloat("material.shininess", 32.0f);
-        blendShader.setMat4("projection", projection);
-        blendShader.setMat4("view", view);
+        ourShader.use();
+        ourShader.setVec3("viewPosition", programState->camera.Position);
+        ourShader.setFloat("material.shininess", 32.0f);
+
+        ourShader.setMat4("projection", projection);
+        ourShader.setMat4("view", view);
 
 
-        blendShader.setVec3("pointLight.position", glm::vec3(10.0f, 4.0f, -6.0f));
-        blendShader.setVec3("pointLight.ambient", glm::vec3 (9.5f, 9.5f, 9.5f));
-        blendShader.setVec3("pointLight.diffuse", glm::vec3 (1.0f, 1.0f, 1.0f));
-        blendShader.setVec3("pointLight.specular",glm::vec3 (2.0f, 2.0f, 2.0f) );
-        blendShader.setFloat("pointLight.constant", 1.0f);
-        blendShader.setFloat("pointLight.linear", 0.09f);
-        blendShader.setFloat("pointLight.quadratic", 0.032);
+        ourShader.setVec3("pointLight.position[0]", glm::vec3(0.0f, 2.0f, 10.0f));
+        ourShader.setVec3("pointLight.ambient[0]", glm::vec3 (2.9f, 2.9f, 2.9f));
+        ourShader.setVec3("pointLight.diffuse[0]", glm::vec3 (3.0f, 3.0f, 3.0f));
+        ourShader.setVec3("pointLight.specular[0]",glm::vec3 (0.5f, 0.5f, 0.5f) );
+        ourShader.setFloat("pointLight.constant[0]", 2.0f);
+        ourShader.setFloat("pointLight.linear[0]", 0.09f);
+        ourShader.setFloat("pointLight.quadratic[0]", 0.032);
+
+
 
 
 //---------------------------------------------KONJ2----------------------------------------------------------------
@@ -488,35 +493,35 @@ int main() {
 
         //---------------------------------------MODELI PTICA------------------------------------------------------
 
-            glm::mat4 model3 = glm::mat4(1.0f);
+        glm::mat4 model3 = glm::mat4(1.0f);
 
 // Definisanje parametra za putanju ptice u obliku znaka beskonacnosti
-            float loopRadius = 0.8f;   // Poluprecnik krivine
-            float loopHeight = 0.6f;   // Visina leta
-            float loopSpeed = 0.5f;    // Brzina letenja
+        float loopRadius = 0.8f;   // Poluprecnik krivine
+        float loopHeight = 0.6f;   // Visina leta
+        float loopSpeed = 0.5f;    // Brzina letenja
 
 // Izracunavanje pozicije ptice na osnovu vremena
-            float time = glfwGetTime();
-            float x = loopRadius * sin(loopSpeed * time);
-            float y = loopHeight * cos(4 * loopSpeed * time);
-            float z = loopRadius * sin(4 * loopSpeed * time);
+        float time = glfwGetTime();
+        float x = loopRadius * sin(loopSpeed * time);
+        float y = loopHeight * cos(4 * loopSpeed * time);
+        float z = loopRadius * sin(4 * loopSpeed * time);
 
 
-            model3 = glm::scale(model3, glm::vec3(3.0f));
+        model3 = glm::scale(model3, glm::vec3(3.0f));
 
 // Postavnjanje pozicije ptice na izracunate koordinate
-            model3 = glm::translate(model3, glm::vec3(x, y, z));
-            model3 = glm::translate(model3, glm::vec3(2, 1.7, 2));
+        model3 = glm::translate(model3, glm::vec3(x, y, z));
+        model3 = glm::translate(model3, glm::vec3(2, 1.7, 2));
 
 // Rotiranje ptice tako da gleda u pravcu leta (ka centru znaka beskonacnosti)
-            glm::vec3 direction(-x, -y, -z);
-            glm::vec3 up(0.0f, 1.0f, 0.0f);
-            glm::mat4 rotation = glm::lookAt(glm::vec3(0.0f), direction, up);
-            model3 *= rotation;
+        glm::vec3 direction(-x, -y, -z);
+        glm::vec3 up(0.0f, 1.0f, 0.0f);
+        glm::mat4 rotation = glm::lookAt(glm::vec3(0.0f), direction, up);
+        model3 *= rotation;
 
 
-            ourShader.setMat4("model", model3);
-            pticaModel.Draw(ourShader);
+        ourShader.setMat4("model", model3);
+        pticaModel.Draw(ourShader);
 
 //--------------------------------------------------------------------------------------------------------------
         glm::mat4 model4 = glm::mat4(1.0f);
@@ -566,17 +571,17 @@ int main() {
         ourShader.setMat4("model", model5);
         pticaModel.Draw(ourShader);
 //=================================================================================================================
-        //--------------------------------------------BUANR----------------------------------------------
+        //--------------------------------------------DRVO----------------------------------------------
         glm::mat4 model12= glm::mat4(1.0f);
 
         float angle12 = glm::radians(250.0f);
         glm::vec3 axis12(0.0f, 1.0f, 0.0f);
         model12 = glm::rotate(model12, angle12, axis12);
-        model12 = glm::translate(model12, glm::vec3 (-1.0f, -1.1f, -2.5f));
-        model12 = glm::scale(model12, glm::vec3(0.1f, 0.1f, 0.1f));
+        model12 = glm::translate(model12, glm::vec3 (-4.0f, -1.1f, -2.5f));
+        model12 = glm::scale(model12, glm::vec3(0.9f, 0.9f, 0.9f));
 
         ourShader.setMat4("model", model12);
-        bunarModel.Draw(ourShader);
+        drvo2Model.Draw(ourShader);
 //------------------------------------------MODEL PECURKE---------------------------------------------------------
 
         glm::mat4 model6= glm::mat4(1.0f);
@@ -779,6 +784,16 @@ void processInput(GLFWwindow *window) {
 
 
 
+
+    if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS && !blinnKeyPressed)
+    {
+        blinn = !blinn;
+        blinnKeyPressed = true;
+    }
+    if (glfwGetKey(window, GLFW_KEY_B) == GLFW_RELEASE)
+    {
+        blinnKeyPressed = false;
+    }
 
 
     float maxBackwardDistance = -1.0f; // Prilagodi prema potrebiA
