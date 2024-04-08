@@ -451,6 +451,7 @@ int main() {
 
 
 
+
         //=======================================================================================================
         ourShader.use();
         ourShader.setVec3("viewPosition", programState->camera.Position);
@@ -460,32 +461,17 @@ int main() {
         ourShader.setMat4("view", view);
 
 
-        ourShader.setVec3("pointLight.position[0]", glm::vec3(0.0f, 2.0f, 10.0f));
+
+
+        ourShader.setVec3("pointLight.position[0]", glm::vec3(4.0f, -4.0f, 12.0f));
         ourShader.setVec3("pointLight.ambient[0]", glm::vec3 (2.9f, 2.9f, 2.9f));
         ourShader.setVec3("pointLight.diffuse[0]", glm::vec3 (3.0f, 3.0f, 3.0f));
-        ourShader.setVec3("pointLight.specular[0]",glm::vec3 (0.5f, 0.5f, 0.5f) );
+        ourShader.setVec3("pointLight.specular[0]",glm::vec3 (7.5f, 7.5f, 7.5f) );
         ourShader.setFloat("pointLight.constant[0]", 2.0f);
         ourShader.setFloat("pointLight.linear[0]", 0.09f);
         ourShader.setFloat("pointLight.quadratic[0]", 0.032);
 
-
-
-
-//---------------------------------------------KONJ2----------------------------------------------------------------
-        glm::mat4 model9= glm::mat4(1.0f);
-
-        float angle9 = glm::radians(220.0f);
-        glm::vec3 axis9(0.0f, 1.0f, 0.0f);
-        model9 = glm::rotate(model9, angle9, axis9);
-        model9 = glm::translate(model9, glm::vec3 (0.0f, -1.0f, -11.1f));
-        model9 = glm::translate(model9, positionKonj2);
-        model9 = glm::scale(model9, glm::vec3(0.89, 0.89, 0.89));
-
-        ourShader.setMat4("model", model9);
-        konjModel.Draw(ourShader);
-
-
-
+        
 
         //=========================================================================================================
 
@@ -611,6 +597,22 @@ int main() {
         ourShader.setMat4("model", model7);
         pecurkaModel.Draw(ourShader);
 
+        //-------------------------------------DRVO---------------------------------------------------------
+
+        glm::mat4 model11= glm::mat4(1.0f);
+
+        float angle11 = glm::radians(45.0f);
+        glm::vec3 axis11(0.0f, 1.0f, 0.0f);
+        model1 = glm::rotate(model11, angle11, axis11);
+
+        model11 = glm::translate(model11, glm::vec3 (12.0f, -1.1f, 8.0f));
+
+
+        model11 = glm::scale(model11, glm::vec3(1.5, 1.5, 1.5));
+
+        ourShader.setMat4("model", model11);
+        drvoModel.Draw(ourShader);
+
         //----------------------------------------------------------------------------------------------------
         glm::mat4 model8= glm::mat4(1.0f);
 
@@ -630,25 +632,45 @@ int main() {
 
 
 
+        blendShader.use();
+        blendShader.setVec3("viewPosition", programState->camera.Position);
+        blendShader.setFloat("material.shininess", 32.0f);
+        blendShader.setMat4("projection", projection);
+        blendShader.setMat4("view", view);
+
+
+        blendShader.setVec3("pointLight.position", glm::vec3(4.0f, 0.0f, -6.0f));
+        blendShader.setVec3("pointLight.ambient", glm::vec3 (9.5f, 9.5f, 9.5f));
+        blendShader.setVec3("pointLight.diffuse", glm::vec3 (1.0f, 1.0f, 1.0f));
+        blendShader.setVec3("pointLight.specular",glm::vec3 (2.0f, 2.0f, 2.0f) );
+        blendShader.setFloat("pointLight.constant", 1.0f);
+        blendShader.setFloat("pointLight.linear", 0.09f);
+        blendShader.setFloat("pointLight.quadratic", 0.032);
+
+        //---------------------------------------------KONJ2----------------------------------------------------------------
+        glm::mat4 model9= glm::mat4(1.0f);
+
+        float angle9 = glm::radians(220.0f);
+        glm::vec3 axis9(0.0f, 1.0f, 0.0f);
+        model9 = glm::rotate(model9, angle9, axis9);
+        model9 = glm::translate(model9, glm::vec3 (0.0f, -1.0f, -11.1f));
+        model9 = glm::translate(model9, positionKonj2);
+        model9 = glm::scale(model9, glm::vec3(0.89, 0.89, 0.89));
+
+        ourShader.setMat4("model", model9);
+        konjModel.Draw(ourShader);
+
+
+
+
+
+
+
 //==================================================================================================================
 
 
 
-        //-------------------------------------DRVO---------------------------------------------------------
 
-        glm::mat4 model11= glm::mat4(1.0f);
-
-        float angle11 = glm::radians(45.0f);
-        glm::vec3 axis11(0.0f, 1.0f, 0.0f);
-        model1 = glm::rotate(model11, angle11, axis11);
-
-        model11 = glm::translate(model11, glm::vec3 (12.0f, -1.1f, 8.0f));
-
-
-        model11 = glm::scale(model11, glm::vec3(1.5, 1.5, 1.5));
-
-        ourShader.setMat4("model", model11);
-        drvoModel.Draw(ourShader);
 
         // draw skybox as last
         glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
