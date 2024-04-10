@@ -25,3 +25,5 @@ Prazan projekat sa pratećim bibliotekama koje koristimo na času.
 # Oblasti iz grupe B
 14. HDR, Bloom
 
+![Screenshot from 2024-04-10 14-20-18](https://github.com/martinairicaninn/projekat-grafika/assets/165202526/c8788774-8bbc-482d-8eb7-181f0ce48438)
+
