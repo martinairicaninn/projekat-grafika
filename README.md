@@ -18,7 +18,7 @@ Projekat iz Racunarske grafike
 9. W, S - kretanje kobile (Iris)
 9. H - ukljucivanje/iskljucivanje HDR-a
 10. B - ukljucivanje/iskljucivanje Bloom-a
-10. G, J - smanjivanje/pojacavanje Expouser-a
+10. G, J - smanjivanje/pojacavanje Exposure-a
 11. LEFT, RIGHT, UP, DOWN - kretanje po sceni
 12. L - ukljucivanje/iskljucivanje Blinn-a
 
@@ -41,11 +41,11 @@ Projekat iz Racunarske grafike
   
 ![Screenshot from 2024-04-10 16-06-35](https://github.com/martinairicaninn/projekat-grafika/assets/165202526/13432789-a7db-44ac-a1d8-f07c3684494d)
 
-- Smanjen Expouser
+- Smanjen Exposure
   
 ![Screenshot from 2024-04-10 16-07-09](https://github.com/martinairicaninn/projekat-grafika/assets/165202526/8a90eb3d-58f1-45f7-abb0-74aa09c496e8)
 d)
-- Pojacan Expouser
+- Pojacan Exposure
   
 ![Screenshot from 2024-04-10 16-07-23](https://github.com/martinairicaninn/projekat-grafika/assets/165202526/7db3d0fd-14b4-4bb8-b1d0-8d9ad72d7679)
 
