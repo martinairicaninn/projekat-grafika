@@ -25,3 +25,4 @@ Prazan projekat sa pratećim bibliotekama koje koristimo na času.
 # Oblasti iz grupe B
 14. HDR, Bloom
 
+
