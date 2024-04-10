@@ -13,11 +13,11 @@ Prazan projekat sa pratećim bibliotekama koje koristimo na času.
 # Komande 
 8. A, D - kretanje konja (Adrian)
 9. W, S - kretanje kobile (Iris)
-9. H - ukljucivanje/iskljucivanje HDR-a i Bloom-a
-10. B - ukljucivanje/iskljucivanje blinn-a
-10. G, J - smanjivanje/pojacavanje expouser-a
+9. H - ukljucivanje/iskljucivanje HDR-a
+10. B - ukljucivanje/iskljucivanje Bloom-a
+10. G, J - smanjivanje/pojacavanje Expouser-a
 11. LEFT, RIGHT, UP, DOWN - kretanje po sceni
-12. B - ukljucivanje/iskljucivanje blinn-a
+12. L - ukljucivanje/iskljucivanje Blinn-a
 
 # Oblasti iz grupe A
 13. Cubemaps

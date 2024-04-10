@@ -42,6 +42,8 @@ float exposure = 1.0f;
 bool bloomKeyPressed = false;
 bool blinn = false;
 bool blinnKeyPressed = false;
+bool hdr = false;
+bool hdrKeyPressed = false;
 
 
 
@@ -191,8 +193,8 @@ int main() {
     Shader ourShader("resources/shaders/2.model_lighting.vs", "resources/shaders/2.model_lighting.fs");
     Shader skyboxShader("resources/shaders/skybox.vs", "resources/shaders/skybox.fs");
     Shader blendShader("resources/shaders/2.model_lighting.vs", "resources/shaders/blending.fs");
-    Shader shaderBlur("resources/shaders/blur.vs", "resources/shaders/blur.fs");
-    Shader shaderBloom("resources/shaders/bloom.vs", "resources/shaders/bloom.fs");
+    Shader shaderBloom("resources/shaders/blur.vs", "resources/shaders/blur.fs");
+    Shader shaderHdr("resources/shaders/bloom.vs", "resources/shaders/bloom.fs");
 
 
 
@@ -289,11 +291,11 @@ int main() {
     ourShader.setInt("diffuseTexture", 0);
     blendShader.use();
     blendShader.setInt("diffuseTexture", 0);
-    shaderBlur.use();
-    shaderBlur.setInt("image", 0);
     shaderBloom.use();
-    shaderBloom.setInt("scene", 0);
-    shaderBloom.setInt("bloomBlur", 1);
+    shaderBloom.setInt("image", 0);
+    shaderHdr.use();
+    shaderHdr.setInt("scene", 0);
+    shaderHdr.setInt("bloomBlur", 1);
 
 
     float skyboxVertices[] = {
@@ -690,11 +692,11 @@ int main() {
 
         bool horizontal = true, first_iteration = true;
         unsigned int amount = 5;
-        shaderBlur.use();
+        shaderBloom.use();
         for (unsigned int i = 0; i < amount; i++)
         {
             glBindFramebuffer(GL_FRAMEBUFFER, pingpongFBO[horizontal]);
-            shaderBlur.setInt("horizontal", horizontal);
+            shaderBloom.setInt("horizontal", horizontal);
             glBindTexture(GL_TEXTURE_2D, first_iteration ? colorBuffers[1] : pingpongColorbuffers[!horizontal]);  // bind texture of other framebuffer (or scene if first iteration)
             renderQuad();
             horizontal = !horizontal;
@@ -705,13 +707,14 @@ int main() {
         // now render floating point color buffer to 2D quad and tonemap HDR colors to default framebuffer's (clamped) color range
         //____________________________________________________________________________________________________
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        shaderBloom.use();
+        shaderHdr.use();
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, colorBuffers[0]);
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, pingpongColorbuffers[!horizontal]);
-        shaderBloom.setInt("bloom", bloom);
-        shaderBloom.setFloat("exposure", exposure);
+        shaderHdr.setBool("hdr", hdr);
+        shaderHdr.setBool("bloom", bloom);
+        shaderHdr.setFloat("exposure", exposure);
         renderQuad();
 
 
@@ -782,12 +785,12 @@ void processInput(GLFWwindow *window) {
 
     }
 
-    if (glfwGetKey(window, GLFW_KEY_H) == GLFW_PRESS && !bloomKeyPressed)
+    if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS && !bloomKeyPressed)
     {
         bloom = !bloom;
         bloomKeyPressed = true;
     }
-    if (glfwGetKey(window, GLFW_KEY_H) == GLFW_RELEASE)
+    if (glfwGetKey(window, GLFW_KEY_B) == GLFW_RELEASE)
     {
         bloomKeyPressed = false;
     }
@@ -804,15 +807,27 @@ void processInput(GLFWwindow *window) {
     }
 
 
-    if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS && !blinnKeyPressed)
+    if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS && !blinnKeyPressed)
     {
         blinn = !blinn;
         blinnKeyPressed = true;
     }
-    if (glfwGetKey(window, GLFW_KEY_B) == GLFW_RELEASE)
+    if (glfwGetKey(window, GLFW_KEY_L) == GLFW_RELEASE)
     {
         blinnKeyPressed = false;
     }
+
+    if (glfwGetKey(window, GLFW_KEY_H) == GLFW_PRESS && !hdrKeyPressed)
+    {
+        hdr = !hdr;
+        hdrKeyPressed = true;
+    }
+    if (glfwGetKey(window, GLFW_KEY_H) == GLFW_RELEASE)
+    {
+        hdrKeyPressed = false;
+    }
+
+
 
 
     float maxBackwardDistance = -1.0f; // Prilagodi prema potrebi
