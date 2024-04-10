@@ -1,5 +1,8 @@
-# project_base
-Prazan projekat sa pratećim bibliotekama koje koristimo na času. 
+# Projekat
+Projekat iz Racunarske grafike
+
+# STUDENT
+- Martina Iricanin 355/2021
 
 # Uputstvo
 1. `git clone https://github.com/matf-racunarska-grafika/project_base.git`
@@ -9,9 +12,6 @@ Prazan projekat sa pratećim bibliotekama koje koristimo na času.
 5. Zaglavlja (h i hpp) fajlovi idu u include
 6. Šejderi idu u folder shaders. `Vertex shader` ima ekstenziju `.vs`, `fragment shader` ima ekstenziju `.fs`
 7. ALT+SHIFT+F10 -> project_base -> run
-
-# STUDENT
-   - Martina Iricanin 355/2021
 
 # Komande 
 8. A, D - kretanje konja (Adrian)
