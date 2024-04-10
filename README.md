@@ -33,27 +33,31 @@ Projekat iz Racunarske grafike
 # Slike projekta
 
 - Scena kada se pokrene projekat
-![Screenshot from 2024-04-10 16-11-18.png](..%2F..%2F..%2FPictures%2FScreenshot%20from%202024-04-10%2016-11-18.png)
+![Screenshot from 2024-04-10 16-11-18](https://github.com/martinairicaninn/projekat-grafika/assets/165202526/c735bde7-4695-46e1-9f3e-dc8816805bc4)
+
 
 - HDR
-![Screenshot from 2024-04-10 16-06-35.png](..%2F..%2F..%2FPictures%2FScreenshot%20from%202024-04-10%2016-06-35.png)
+![Screenshot from 2024-04-10 16-06-35](https://github.com/martinairicaninn/projekat-grafika/assets/165202526/13432789-a7db-44ac-a1d8-f07c3684494d)
+
 - Smanjen Expouser
-![Screenshot from 2024-04-10 16-07-09.png](..%2F..%2F..%2FPictures%2FScreenshot%20from%202024-04-10%2016-07-09.png)
+![Screenshot from 2024-04-10 16-07-09](https://github.com/martinairicaninn/projekat-grafika/assets/165202526/8a90eb3d-58f1-45f7-abb0-74aa09c496e8)
+d)
 - Pojacan Expouser
-![Screenshot from 2024-04-10 16-07-23.png](..%2F..%2F..%2FPictures%2FScreenshot%20from%202024-04-10%2016-07-23.png)
+![Screenshot from 2024-04-10 16-07-23](https://github.com/martinairicaninn/projekat-grafika/assets/165202526/7db3d0fd-14b4-4bb8-b1d0-8d9ad72d7679)
 
 - Bloom
-![Screenshot from 2024-04-10 16-12-33.png](..%2F..%2F..%2FPictures%2FScreenshot%20from%202024-04-10%2016-12-33.png)
+![Screenshot from 2024-04-10 16-12-33](https://github.com/martinairicaninn/projekat-grafika/assets/165202526/4f9c0308-427b-457c-9748-1ab954e47a04)
 
 - Bloom i HDR
-![Screenshot from 2024-04-10 16-07-49.png](..%2F..%2F..%2FPictures%2FScreenshot%20from%202024-04-10%2016-07-49.png)
+![Screenshot from 2024-04-10 16-07-49](https://github.com/martinairicaninn/projekat-grafika/assets/165202526/ec4b51ff-650e-4cef-ac0c-0742c5655467)
 
 - Iskljucen Blinn (Advanced lighting)
-![Screenshot from 2024-04-10 16-08-33.png](..%2F..%2F..%2FPictures%2FScreenshot%20from%202024-04-10%2016-08-33.png)
+![Screenshot from 2024-04-10 16-08-33](https://github.com/martinairicaninn/projekat-grafika/assets/165202526/25296c62-0765-4f65-8fa9-b33c4366664f)
 - Ukljucen Blinn (Advanced lighting)
-![Screenshot from 2024-04-10 16-08-35.png](..%2F..%2F..%2FPictures%2FScreenshot%20from%202024-04-10%2016-08-35.png)
+![Screenshot from 2024-04-10 16-08-35](https://github.com/martinairicaninn/projekat-grafika/assets/165202526/841be683-0f6a-4a79-8ae0-16c11ea22f99)
 
 - Blending
-![Screenshot from 2024-04-10 16-09-11.png](..%2F..%2F..%2FPictures%2FScreenshot%20from%202024-04-10%2016-09-11.png)
+![Screenshot from 2024-04-10 16-09-11](https://github.com/martinairicaninn/projekat-grafika/assets/165202526/a0c7748d-94ab-490b-815c-649441daf00f)
+
 
 
