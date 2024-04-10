@@ -33,6 +33,7 @@ Projekat iz Racunarske grafike
 # Slike projekta
 
 - Scena kada se pokrene projekat
+  
 ![Screenshot from 2024-04-10 16-11-18](https://github.com/martinairicaninn/projekat-grafika/assets/165202526/c735bde7-4695-46e1-9f3e-dc8816805bc4)
 
 
@@ -48,7 +49,7 @@ d)
   
 ![Screenshot from 2024-04-10 16-07-23](https://github.com/martinairicaninn/projekat-grafika/assets/165202526/7db3d0fd-14b4-4bb8-b1d0-8d9ad72d7679)
 
-- Bloo
+- Bloom
   
 ![Screenshot from 2024-04-10 16-12-33](https://github.com/martinairicaninn/projekat-grafika/assets/165202526/4f9c0308-427b-457c-9748-1ab954e47a04)
 
