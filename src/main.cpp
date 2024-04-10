@@ -150,6 +150,7 @@ int main() {
     glfwSetScrollCallback(window, scroll_callback);
     glfwSetKeyCallback(window, key_callback);
     // tell GLFW to capture our mouse
+    
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     // glad: load all OpenGL function pointers
@@ -471,7 +472,7 @@ int main() {
         ourShader.setFloat("pointLight.linear[0]", 0.09f);
         ourShader.setFloat("pointLight.quadratic[0]", 0.032);
 
-        
+
 
         //=========================================================================================================
 
@@ -903,10 +904,7 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
         }
 
     }
-
-    if (key == GLFW_KEY_M && action == GLFW_PRESS){}
-
-
+  
 
 }
 
